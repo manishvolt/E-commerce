@@ -8,11 +8,10 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
 		features="classpath:Feature",
 		glue="StepDefs",
-		tags="@MultipleLogin",
+		tags="@Testcase2 and @MultipleLogin",
 		dryRun=false,
 		monochrome=true,
-		strict=true
-		//plugin={"pretty", "html:target/html-cucumber-report", "json:target/cucumber.json",}
+		plugin={"pretty", "html:target/html/htmlreport.html", "json:target/json/file.json",}
 		)
 public class TestRunner {
 

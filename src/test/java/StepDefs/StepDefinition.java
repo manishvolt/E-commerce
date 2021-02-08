@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import PageObjectModel.CommonObjects;
 import PageObjectModel.End_to_End_Objects;
 import PageObjectModel.FormObjects;
+import PageObjectModel.PrintObject;
 import PageObjectModel.Product;
 import PageObjectModel.test;
 import WebDriverFactory.WebDriverFactory;
@@ -27,12 +28,15 @@ import io.cucumber.java.en.When;
 public class StepDefinition {
 	private static final Logger logger = LogManager.getLogger(StepDefinition.class);
 	public static WebDriver driver;
+	
 	String url="http://Automationpractice.com";
+	
 	CommonObjects cmnobjects;
 	FormObjects formobjects;
 	Product product;
 	End_to_End_Objects End;
 	test Test;
+	
 	
 	String Expected="Welcome to your account. Here you can manage all of your personal information and orders.";
 	Scenario scn;
@@ -43,9 +47,11 @@ public class StepDefinition {
 	driver=	WebDriverFactory.GetDriverForBrowser(BrowserName);
 	logger.info("browser invoked");
 	formobjects=new FormObjects(driver);
-	cmnobjects=new CommonObjects(driver); 
+	cmnobjects=new CommonObjects(driver);
 	End=new End_to_End_Objects(driver);
 	Test=new test(driver);
+	
+	
 	this.scn=scn;
 	}
 
@@ -121,7 +127,7 @@ public class StepDefinition {
 
 	@Then("email is being sent")
 	public void email_is_being_sent() {
-	    //scn.log("email sent");
+	    scn.log("email sent");
 	}
 	
 	
@@ -137,7 +143,7 @@ public class StepDefinition {
 		Thread.sleep(3000);
 		String Amount=driver.findElement(By.xpath("//span[@id='our_price_display']")).getText();
 		Float Amt=Float.parseFloat(Amount.replace("$", ""));
-		//scn.log("price verified " + Amt);
+		scn.log("price verified " + Amt);
 	}
 
 	@Given("user selects quanity")
@@ -183,7 +189,7 @@ public class StepDefinition {
 		else{
 			Assert.fail();
 		}
-		
+		logger.info("product added to cart");
 	}
 	
 	@Then("proceed to checkout")
@@ -200,7 +206,7 @@ public class StepDefinition {
 		
 		if(driver.findElement(By.xpath("//span[@class='label label-success']")).getText().contains("In stock")){
 			Assert.assertTrue(true);
-			//scn.log("item in stock");
+			scn.log("item in stock");
 		}
 		else{
 			Assert.fail();
@@ -208,7 +214,7 @@ public class StepDefinition {
 		
 		if(driver.findElement(By.xpath("//span[contains(text(),'$16.51')]")).getText().contains("$16.51")){
 			Assert.assertTrue(true);
-			//scn.log("unit price is correct");
+			scn.log("unit price is correct");
 		}
 		
 		else{
@@ -229,7 +235,7 @@ public class StepDefinition {
 		
 		if(singleproductprice+singleproductprice+ShipingCost==priceintotal){
 			Assert.assertTrue(true);
-			//scn.log("Total is equal to twice the amount with $ 2 for shipping");
+			scn.log("Total is equal to twice the amount with $ 2 for shipping");
 		}
 		else{
 			Assert.fail();
@@ -269,10 +275,12 @@ public class StepDefinition {
         if(driver.findElement(By.xpath("//span[@class='price']//strong")).getText().equals(Amount)){
         	Assert.assertTrue(true);
         	//scn.log("test case passed");
+        	
         }
         else{
         	Assert.fail();
         }
+        logger.info("test case is passed");
 		
 	}
 	
@@ -296,29 +304,23 @@ public class StepDefinition {
 		
 
 
-	/*@Then("user logs in")
-	public void user_logs_in() throws InterruptedException {
-		Test.SignInFinal();
-		System.out.println("logged in");
-	}
-	*/
 	
 	
-	/*@After(order=2)
+	@After()
 	public void Screenshot(Scenario s){
 		if(s.isFailed()){
-			TakesScreenshot scrnshot=(TakesScreenshot)driver;
+			TakesScreenshot scrnshot=(TakesScreenshot)driver;   //interface = TakesScreenshot   - casting it to the driver
 			byte[] data=scrnshot.getScreenshotAs(OutputType.BYTES);
-			//scn.attach(data, "image/png", "failed step " +s.getName());
+			scn.attach(data, "image/png", "failed step " +s.getName());
 		}
 		else{
-			//scn.log("test case passed");
+			scn.log("test case passed");
 		}
-	}*/
+	}
 
 
-	@After
+	/*@After
 	public void CleanUp(){
 		driver.quit();
-	}
+	}*/
 }

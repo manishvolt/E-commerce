@@ -32,6 +32,7 @@ public void Select_Size(){
 	WebElement ELement=driver.findElement(Size);
 	Select Ref=new Select(ELement);
 	Ref.selectByValue("3");
+	
 }
 
 public void Add_to_cart(){
